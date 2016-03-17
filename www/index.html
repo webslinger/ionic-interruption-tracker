@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+</head>
+<body ng-app="interrupted">
+
+<ion-pane>
+    <ion-header-bar class="bar-balanced">
+        <h1 class="title">Horology</h1>
+    </ion-header-bar>
+    <div class="tabs" ng-controller="uiCtrl">
+        <a ng-click="showApp()" class="tab-item"><i class="icon ion-android-time"></i></a>
+        <a ng-click="showHistory()" class="tab-item"><i class="icon ion-android-folder"></i></a>
+    </div>
+    <ion-content>
+
+        <div ng-controller="taskCtrl" id="mainApp" ng-hide="hide">
+            <div class="bar bar-subheader">
+                <h2 class="title">Tasks</h2>
+            </div>
+            <div class="list timers">
+                <div class="relative" ng-repeat="timer in timers" ng-hide="timer.complete" on-swipe-left="timer.toggleShowControls(true)" on-swipe-right="timer.toggleShowControls()">
+                    <div class="item context" ng-if="!timer.complete">
+                        <div class="button-bar">
+                            <a href="" class="button button-balanced" ng-click="completeTask(timer)">Done</a>
+                            <a href="" class="button button-assertive" ng-click="cancelTask(timer)">Delete</a>
+                        </div>
+                    </div>
+                    <div class="item item-button-right" ng-class="{swiped: timer.showControls}" ng-if="!timer.complete">
+                        <h2>{{ timer.label }}</h2>
+                        <button class="interrupt button button-balanced" ng-click="timer.interrupt()" ng-hide="timer.stopped">
+                            <i class="icon ion-person"></i>
+                        </button>
+                        <button class="interrupt button button-assertive" ng-click="timer.resume()" ng-show="timer.stopped">
+                            <i class="icon ion-person-stalker"></i>
+                        </button>
+                        <button class="break button button-stable" ng-click="timer.paused = true" ng-hide="timer.paused">
+                            <i class="icon ion-pause"></i>
+                        </button>
+                        <button class="break button button-stable" ng-click="timer.paused = false" ng-show="timer.paused">
+                            <i class="icon ion-play"></i>
+                        </button>
+                        <table>
+                            <tr>
+                                <td>Active:</td>
+                                <td>{{ timer.time_worked | timeString }}</td>
+                            </tr>
+                            <tr>
+                                <td>Disrupted:</td>
+                                <td>{{ timer.time_stopped | timeString }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div ng-if="!timers.length">
+                    <div class="item">No Active Tasks.</div>
+                </div>
+            </div>
+            <div class="button-bar">
+                <a class="button" ng-click="showPopup()">New Task</a>
+            </div>
+        </div>
+
+        <div ng-controller="historyCtrl" class="has-subheader" id="historyApp" ng-hide="hide">
+            <div class="bar bar-subheader">
+                <h2 class="title">Task Log</h2>
+            </div>
+            <table width="100%" class="history" ng-repeat="(day, tasks) in history" ng-class="{collapse: collapsed}">
+                <thead>
+                    <tr>
+                        <td colspan="4">
+                            <h3 ng-click="collapsed = !collapsed">{{ day | scoreToSpace }}</h3>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Task</th>
+                        <th>Worked</th>
+                        <th>Stopped</th>
+                        <th>Stops</th>
+                    </tr>
+                    <tr ng-repeat="task in tasks" ng-show="!task.canceled">
+                        <td>{{ task.label }}</td>
+                        <td>{{ task.time_worked }}</td>
+                        <td>{{ task.time_stopped }}</td>
+                        <td>{{ task.interruptions }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="item" ng-show="isEmpty()">
+                No Logs.
+            </div>
+            <div class="button-bar" ng-show="!isEmpty()">
+                <a href="" class="button button-assertive" ng-click="showConfirm()">Erase Logs</a>
+            </div>
+        </div>
+    </ion-content>
+</ion-pane>
+</body>
+</html>

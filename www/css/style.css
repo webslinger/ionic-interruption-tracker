@@ -1,0 +1,78 @@
+/* Empty. Add your own CSS if you like */
+#mainApp, #historyApp, #adminApp {
+    padding-top: 44px;
+}
+
+.bar-subheader {
+    top: 0;
+}
+
+.timers.list .item {
+    padding-left: 76px;
+    padding-right: 76px;
+    width: 100%;
+    transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+}
+
+.timers.list .item.context {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.timers.list .item.swiped {
+    left: -100%;
+}
+.timers.list .button.break {
+    right: inherit;
+    left: 16px;
+    top: 16px;
+}
+
+.timers.list h2 {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.timers.list table { width: 100%; }
+.timers.list table td { width: 50%; }
+.timers.list table td + td { text-align: right; }
+.timers.list table td:first-child { font-weight: bold; }
+
+table.history { margin: 0 auto; max-width: 96%; margin-bottom: 10px; }
+table.history h3 {
+    font-size: 16px;
+    padding: 10px 0;
+    text-align: center;
+    border: 1px solid #dfdfdf;
+}
+table.history th, table.history td { text-align: left; padding:  5px 10px; }
+table.history td[colspan="4"] { padding: 0; }
+table.history th  { font-weight: bold; }
+table.history td + td, table.history th + th { text-align: right; }
+
+table.history.collapse tbody {
+    display: none;
+}
+
+.relative {
+    position: relative;
+    height: 97px;
+}
+
+.relative > div {
+    transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+}
+
+.relative > div {
+    position: absolute;
+    height: 97px;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.button-bar {
+    width: 96%;
+    margin-left: auto;
+    margin-right: auto;
+}
